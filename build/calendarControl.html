@@ -21,19 +21,23 @@
 .w70{width:70px;}
 .w100{width:100px;}
 .inputBox{
-	margin:20px;
+	margin: 20px 5px 0px 20px;
 }
 
 .inputTextbox{
-	height: 30px;
-	line-height: 30px;
-	border:1px solid blue;
+	width: 125px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px #0066b3 solid;
+    padding: 0 9px;
+    background: url(images/icon_24_date.png) right 3px no-repeat;
 }
 
 .dateRng{
 	
 	width: 502px;
     border: 1px solid grey; 
+	margin: 0px 5px 0px 20px;
 }
 .calendarContainer{
 	padding-left:5px;
@@ -228,6 +232,7 @@
 		  handleClick(){
     
 			this.refs.myInput.focus();
+			//this.refs.myInput.className = 'show';
 		  }
 		  
 		  render(){
@@ -237,11 +242,13 @@
 				<input type="text" ref="myInput" className="inputTextbox"
 				value={this.props.inputTxt}
 				onChange={this.props.updateStateProp}
+				onClick={this.props.dateRngShow}
 				
 				/>
 				<input
+				  
 				  type="button"
-				  value="点我输入"
+				  value="点击获取焦点"
 				  onClick={this.handleClick.bind(this)}
 				/>
 			  </div>
@@ -588,6 +595,7 @@
 				this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
 				this.handleMonthKey = this.handleMonthKey.bind(this);
 				this.handleChange = this.handleChange.bind(this);
+				this.dateRngShow = this.dateRngShow.bind(this);
 				
 			}
 
@@ -617,7 +625,10 @@
 			}
 
 			//var s_year; var s_month;
-			
+			dateRngShow(){
+					var dateRngClass = this.refs.dateRng.className;
+					this.refs.dateRng.className = this.refs.dateRng.className=="hide" ? "dateRng" : "hide";
+				  }
 						
 			
 			render(){
@@ -635,15 +646,17 @@
 					var s_month = this.state.month == 12 ? 1 : this.state.month+1;
 				}
 				//var inputTxt = s_year + "年" + s_month + "月" + this.state.day + "日";
+				
 				return(
 					<div>
 						 <MyComponent 
 								
 								inputTxt = {s_year + "-" + s_month + "-" + this.state.day}
 								updateStateProp = {this.handleChange}
+								dateRngShow = {this.dateRngShow}
 								/>
 						
-						<div className="dateRng">
+						<div className="dateRng" ref="dateRng">
 							<CalendarHeader  year = {this.state.year}
 								month = {this.state.month}
 								updateFilter={this.handleFilterUpdate} 
